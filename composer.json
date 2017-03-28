@@ -1,0 +1,9 @@
+{
+    "name": "avtomon/notejs",
+    "description": "Yet another balloon jquery plugin",
+    "type": "project",
+    "minimum-stability": "stable",
+    "config": {
+	      "process-timeout": 1800
+    }
+}
