@@ -1,11 +1,10 @@
 #popup {
-    background: #000000;
-    font: 17px "exo_2regular",Arial,sans-serif;
+    background: black;
     opacity: 0.7;
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 9;
+    z-index: 9999;
     text-align: center;
     padding: 20px 0;
     display: none;
@@ -18,15 +17,15 @@
 
 #popup > span:before {
     content: '';
-    height: 12px;
+    height: 16px;
     margin-right: 10px;
     background-repeat: no-repeat;
-    width: 16px;
+    width: auto;
     display: inline-block;
 }
 
 #popup.ok > span:before {
-    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8IS0tIENyZWF0b3I6IENvcmVsRFJBVyBYNyAtLT4NCjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWw6c3BhY2U9InByZXNlcnZlIiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxMnB4IiB2ZXJzaW9uPSIxLjEiIHN0eWxlPSJzaGFwZS1yZW5kZXJpbmc6Z2VvbWV0cmljUHJlY2lzaW9uOyB0ZXh0LXJlbmRlcmluZzpnZW9tZXRyaWNQcmVjaXNpb247IGltYWdlLXJlbmRlcmluZzpvcHRpbWl6ZVF1YWxpdHk7IGZpbGwtcnVsZTpldmVub2RkOyBjbGlwLXJ1bGU6ZXZlbm9kZCINCnZpZXdCb3g9IjAgMCAxOSAxNCINCiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQogPGRlZnM+DQogIDxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQogICA8IVtDREFUQVsNCiAgICAuZmlsMCB7ZmlsbDojMzNDQzY2fQ0KICAgXV0+DQogIDwvc3R5bGU+DQogPC9kZWZzPg0KIDxnIGlkPSLQodC70L7QuV94MDAyMF8xIj4NCiAgPG1ldGFkYXRhIGlkPSJDb3JlbENvcnBJRF8wQ29yZWwtTGF5ZXIiLz4NCiAgPHBhdGggY2xhc3M9ImZpbDAiIGQ9Ik0xNyAwYzAsMCAtMSwwIC0xLDBsLTkgOWMwLDAgMCwwIDAsMGwtNCAtNGMwLDAgLTEsMCAtMSwwIDAsMCAwLDAgMCwwbC0yIDJjMCwwIDAsMCAwLDAgMCwwIDAsMCAwLDBsNCA0YzAsMSAxLDEgMSwxbDIgMmMwLDAgMCwwIDAsMGwxMiAtMTFjMCwtMSAwLC0xIDAsLTFsLTIgLTJ6Ii8+DQogPC9nPg0KPC9zdmc+DQo=);
+    background-image: url('data:image/svg+xml;utf-8,<svg fill="#33CC66" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>');
 }
 
 #popup.error span {
@@ -34,5 +33,5 @@
 }
 
 #popup.error > span:before {
-    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8IS0tIENyZWF0b3I6IENvcmVsRFJBVyBYNyAtLT4NCjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWw6c3BhY2U9InByZXNlcnZlIiB3aWR0aD0iMTJweCIgaGVpZ2h0PSIxMnB4IiB2ZXJzaW9uPSIxLjEiIHN0eWxlPSJzaGFwZS1yZW5kZXJpbmc6Z2VvbWV0cmljUHJlY2lzaW9uOyB0ZXh0LXJlbmRlcmluZzpnZW9tZXRyaWNQcmVjaXNpb247IGltYWdlLXJlbmRlcmluZzpvcHRpbWl6ZVF1YWxpdHk7IGZpbGwtcnVsZTpldmVub2RkOyBjbGlwLXJ1bGU6ZXZlbm9kZCINCnZpZXdCb3g9IjAgMCA2NCA2NSINCiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayINCiB4bWxuczpza2V0Y2g9Imh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaC9ucyI+DQogPGRlZnM+DQogIDxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQogICA8IVtDREFUQVsNCiAgICAuZmlsMCB7ZmlsbDojQ0MwMDMzfQ0KICAgXV0+DQogIDwvc3R5bGU+DQogPC9kZWZzPg0KIDxnIGlkPSLQodC70L7QuV94MDAyMF8xIj4NCiAgPG1ldGFkYXRhIGlkPSJDb3JlbENvcnBJRF8wQ29yZWwtTGF5ZXIiLz4NCiAgPGcgaWQ9Il82MzAxODQ2NDAiPg0KICAgPGcgaWQ9Ikljb25zX3gwMDIwX3dpdGhfeDAwMjBfbnVtYmVycyI+DQogICAgPGcgaWQ9Ikdyb3VwIj4NCiAgICAgPHBhdGggaWQ9IlBhdGhfeDAwMjBfMjAzIiBjbGFzcz0iZmlsMCIgZD0iTTAgMTZsMTYgLTE2IDE2IDE2IDE2IC0xNiAxNiAxNiAtMTYgMTYgMTYgMTYgLTE2IDE2IC0xNiAtMTYgLTE2IDE3IC0xNiAtMTcgMTYgLTE2IC0xNiAtMTZ6bTAgMHoiLz4NCiAgICA8L2c+DQogICA8L2c+DQogIDwvZz4NCiA8L2c+DQo8L3N2Zz4NCg==);
+    background-image: url('data:image/svg+xml;utf-8,<svg fill="#CC0033" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>');
 }

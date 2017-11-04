@@ -1,10 +1,6 @@
-/**
- * Created by Александр on 23.04.15.
- */
+(function($) {
 
-(function($)
-{
-    $('html').append('<link href="/html/js/notejs/note.min.css" rel="stylesheet" type="text/css" />');
+    $('html').append('<link href="note.min.css" rel="stylesheet" type="text/css" />');
 
     $('body').append('<div id="popup" class="error"><span></span></div>');
 
@@ -37,4 +33,4 @@
         {
             $('#popup').hide();
         };
-})(jQuery);
+});
