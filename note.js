@@ -1,7 +1,7 @@
 $(function () {
     "use strict"
 
-    let uid =  + Math.random().toString(16).slice(2),
+    let uid =  Math.random().toString(16).slice(2),
         settingsUid = 'settings' + uid,
         popupUid = 'popup' + uid;
 
@@ -11,7 +11,8 @@ $(function () {
         $(this).hide();
     });
 
-    let getMessageLang = function(message, callback)
+    let
+        getMessageLang = function(message, callback)
         {
             if (typeof callback !== "function" || !noteSettings.ytkey) {
                 return null;
