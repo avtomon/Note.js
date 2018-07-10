@@ -16,7 +16,9 @@ namespace Note {
 
         popupLiveTime?: number;
     }
-
+    /**
+     * Всплывающие сообщения для сайта на чистом JavaScript. Поддерживаеся перевод на более чем более 90 языков
+     */
     export class Note {
 
         public static readonly COOKIE_LANG_KEY = 'lang';
