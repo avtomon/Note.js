@@ -9,6 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var Note;
 (function (Note_1) {
+    /**
+     * Всплывающие сообщения для сайта на чистом JavaScript. Поддерживаеся перевод на более чем более 90 языков
+     */
     class Note {
         /**
          * Конструктор
@@ -41,7 +44,7 @@ var Note;
         /**
          * Получить язык сообщения
          *
-         * @param {Callback | null} callback - обработчик получения информации о языке
+         * @param {Avtomon.Callback | null} callback - обработчик получения информации о языке
          *
          * @returns {Promise<string | null>}
          */
@@ -61,7 +64,7 @@ var Note;
         /**
          * Перевод сообщения
          *
-         * @param {Callback | null} callback - обработчик получения переведенного сообщения
+         * @param {Avtomon.Callback | null} callback - обработчик получения переведенного сообщения
          * @param {string} toLang - на какой язык переводить
          * @param {string} fromLang - с какого языка переводить
          * @param {string} message - сообщение
@@ -158,7 +161,7 @@ var Note;
                 if (data && data['text'] !== undefined && data['text'][0]) {
                     this.showNote(type, data['text'][0]);
                 }
-            }.bind(this), toLang, '', message);
+            }, toLang, '', message);
         }
         /**
          * Показать позитивное сообщение с переводом

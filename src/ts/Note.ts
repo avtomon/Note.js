@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 
 namespace Note {
 
@@ -17,6 +17,9 @@ namespace Note {
         popupLiveTime?: number;
     }
 
+    /**
+     * Всплывающие сообщения для сайта на чистом JavaScript. Поддерживаеся перевод на более чем более 90 языков
+     */
     export class Note {
 
         public static readonly COOKIE_LANG_KEY = 'lang';
@@ -63,7 +66,7 @@ namespace Note {
          * @static
          * @protected
          */
-        protected static _popupLiveTime: number;
+        protected static _popupLiveTime: number
 
         /**
          * Инициализация
@@ -88,7 +91,7 @@ namespace Note {
             Note._popupLiveTime = popupLiveTime;
 
             if (!document.getElementById(Note._popupUid)) {
-                document.body.insertAdjacentHTML('beforeend', `<div id="${Note._popupUid}" class="popup error"><span></span></div>`);
+                document.body.insertAdjacentHTML('beforeend', `<div id="${Note._popupUid}" class="popup error"><span></span></div>`)
 
                 document.getElementById(Note._popupUid).addEventListener('click', function () {
                     this.style.display = 'none';
@@ -108,7 +111,7 @@ namespace Note {
         /**
          * Получить язык сообщения
          *
-         * @param {Callback | null} callback - обработчик получения информации о языке
+         * @param {Avtomon.Callback | null} callback - обработчик получения информации о языке
          *
          * @returns {Promise<string | null>}
          */
@@ -134,7 +137,7 @@ namespace Note {
         /**
          * Перевод сообщения
          *
-         * @param {Callback | null} callback - обработчик получения переведенного сообщения
+         * @param {Avtomon.Callback | null} callback - обработчик получения переведенного сообщения
          * @param {string} toLang - на какой язык переводить
          * @param {string} fromLang - с какого языка переводить
          * @param {string} message - сообщение
@@ -254,7 +257,7 @@ namespace Note {
                 if (data && data['text'] !== undefined && data['text'][0]) {
                     this.showNote(type, data['text'][0])
                 }
-            }.bind(this), toLang, '', message);
+            }, toLang, '', message);
         }
 
         /**
@@ -278,4 +281,4 @@ namespace Note {
 }
 
 Note.Note.init({});
-window['note'] = new Note.Note();
+window['note'] = new Note.Note()
