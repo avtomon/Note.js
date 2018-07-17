@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 namespace Note {
 
@@ -65,7 +65,7 @@ namespace Note {
          * @static
          * @protected
          */
-        protected static _popupLiveTime: number
+        protected static _popupLiveTime: number;
 
         /**
          * Инициализация
@@ -90,7 +90,7 @@ namespace Note {
             Note._popupLiveTime = popupLiveTime;
 
             if (!document.getElementById(Note._popupUid)) {
-                document.body.insertAdjacentHTML('beforeend', `<div id="${Note._popupUid}" class="popup error"><span></span></div>`)
+                document.body.insertAdjacentHTML('beforeend', `<div id="${Note._popupUid}" class="popup error"><span></span></div>`);
 
                 document.getElementById(Note._popupUid).addEventListener('click', function () {
                     this.style.display = 'none';
@@ -110,7 +110,7 @@ namespace Note {
         /**
          * Получить язык сообщения
          *
-         * @param {Avtomon.Callback | null} callback - обработчик получения информации о языке
+         * @param {Callback | null} callback - обработчик получения информации о языке
          *
          * @returns {Promise<string | null>}
          */
@@ -136,7 +136,7 @@ namespace Note {
         /**
          * Перевод сообщения
          *
-         * @param {Avtomon.Callback | null} callback - обработчик получения переведенного сообщения
+         * @param {Callback | null} callback - обработчик получения переведенного сообщения
          * @param {string} toLang - на какой язык переводить
          * @param {string} fromLang - с какого языка переводить
          * @param {string} message - сообщение
@@ -245,7 +245,8 @@ namespace Note {
          */
         public showTranslateNote(type: MessageType, message: string = this._message): void {
 
-            let toLang: string = navigator.language || Note._getCookieLang();
+            let toLang: string = navigator.language || Note._getCookieLang(),
+                self = this;
 
             if (!toLang) {
                 this.showNote(type);
@@ -254,7 +255,7 @@ namespace Note {
 
             this.translate(function (data) {
                 if (data && data['text'] !== undefined && data['text'][0]) {
-                    this.showNote(type, data['text'][0])
+                    self.showNote(type, data['text'][0])
                 }
             }, toLang, '', message);
         }
@@ -280,4 +281,4 @@ namespace Note {
 }
 
 Note.Note.init({});
-window['note'] = new Note.Note()
+window['note'] = new Note.Note();
