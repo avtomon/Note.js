@@ -152,16 +152,16 @@ var Note;
          * @param {string} message - сообщение
          */
         showTranslateNote(type, message = this._message) {
-            let toLang = navigator.language || Note._getCookieLang();
+            let toLang = navigator.language || Note._getCookieLang(), self = this;
             if (!toLang) {
                 this.showNote(type);
                 return;
             }
             this.translate(function (data) {
                 if (data && data['text'] !== undefined && data['text'][0]) {
-                    this.showNote(type, data['text'][0]);
+                    self.showNote(type, data['text'][0]);
                 }
-            }.bind(this), toLang, '', message);
+            }, toLang, '', message);
         }
         /**
          * Показать позитивное сообщение с переводом

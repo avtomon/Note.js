@@ -44,7 +44,7 @@ var Note;
         /**
          * Получить язык сообщения
          *
-         * @param {Avtomon.Callback | null} callback - обработчик получения информации о языке
+         * @param {Callback | null} callback - обработчик получения информации о языке
          *
          * @returns {Promise<string | null>}
          */
@@ -64,7 +64,7 @@ var Note;
         /**
          * Перевод сообщения
          *
-         * @param {Avtomon.Callback | null} callback - обработчик получения переведенного сообщения
+         * @param {Callback | null} callback - обработчик получения переведенного сообщения
          * @param {string} toLang - на какой язык переводить
          * @param {string} fromLang - с какого языка переводить
          * @param {string} message - сообщение
@@ -152,14 +152,14 @@ var Note;
          * @param {string} message - сообщение
          */
         showTranslateNote(type, message = this._message) {
-            let toLang = navigator.language || Note._getCookieLang();
+            let toLang = navigator.language || Note._getCookieLang(), self = this;
             if (!toLang) {
                 this.showNote(type);
                 return;
             }
             this.translate(function (data) {
                 if (data && data['text'] !== undefined && data['text'][0]) {
-                    this.showNote(type, data['text'][0]);
+                    self.showNote(type, data['text'][0]);
                 }
             }, toLang, '', message);
         }
