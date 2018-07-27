@@ -17,7 +17,7 @@
         * [.showTranslateOk(message)](#Note+showTranslateOk)
         * [.showTranslateError(message)](#Note+showTranslateError)
     * _static_
-        * [.init(popupUid, popupFadeInDuration, popupFadeOutDuration, popupLiveTime)](#Note.init)
+        * [.init(popupUid, popupFadeDuration, popupLiveTime)](#Note.init)
         * [._getCookieLang()](#Note._getCookieLang) ⇒ <code>string</code>
 
 <a name="new_Note_new"></a>
@@ -125,7 +125,7 @@
 
 <a name="Note.init"></a>
 
-### Note.init(popupUid, popupFadeInDuration, popupFadeOutDuration, popupLiveTime)
+### Note.init(popupUid, popupFadeDuration, popupLiveTime)
 Инициализация
 
 **Kind**: static method of [<code>Note</code>](#Note)  
@@ -133,13 +133,12 @@
 | Param | Type |
 | --- | --- |
 | popupUid | <code>string</code> | 
-| popupFadeInDuration | <code>number</code> | 
-| popupFadeOutDuration | <code>number</code> | 
+| popupFadeDuration | <code>number</code> | 
 | popupLiveTime | <code>number</code> | 
 
 <a name="Note._getCookieLang"></a>
 
 ### Note._getCookieLang() ⇒ <code>string</code>
-Dsltkbnm
+Получить язык из cookie
 
 **Kind**: static method of [<code>Note</code>](#Note)  

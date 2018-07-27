@@ -1,6 +1,6 @@
 "use strict";
 
-namespace Note {
+export namespace Note {
 
     type Callback = (data: Object | null) => void;
 
@@ -10,9 +10,7 @@ namespace Note {
 
         popupUid?: string;
 
-        popupFadeInDuration?: number;
-
-        popupFadeOutDuration?: number;
+        popupFadeDuration?: number;
 
         popupLiveTime?: number;
     }
@@ -41,22 +39,13 @@ namespace Note {
         protected static _popupUid: string;
 
         /**
-         * Продолжительнось встплывания окна
+         * Продолжительнось анимации окна
          *
          * @type {number}
          * @static
          * @protected
          */
-        protected static _popupFadeInDuration: number;
-
-        /**
-         * Продолжительнось затухания окна
-         *
-         * @type {number}
-         * @static
-         * @protected
-         */
-        protected static _popupFadeOutDuration: number;
+        protected static _popupFadeDuration: number;
 
         /**
          * Продолжительнось показа окна
@@ -71,22 +60,19 @@ namespace Note {
          * Инициализация
          *
          * @param {string} popupUid
-         * @param {number} popupFadeInDuration
-         * @param {number} popupFadeOutDuration
+         * @param {number} popupFadeDuration
          * @param {number} popupLiveTime
          */
         public static init(
             {
                 popupUid = 'popup' + Math.random().toString(16).slice(2),
-                popupFadeInDuration = 500,
-                popupFadeOutDuration = 500,
+                popupFadeDuration = 500,
                 popupLiveTime = 2000
             }: INoteStatics
         ) {
 
             Note._popupUid = popupUid;
-            Note._popupFadeInDuration = popupFadeInDuration;
-            Note._popupFadeOutDuration = popupFadeOutDuration;
+            Note._popupFadeDuration = popupFadeDuration;
             Note._popupLiveTime = popupLiveTime;
 
             if (!document.getElementById(Note._popupUid)) {
@@ -185,17 +171,20 @@ namespace Note {
             element.classList.remove('error', 'ok');
             element.classList.add(type);
             element.getElementsByTagName('span')[0].innerText = message;
-            let parent: HTMLElement = element.parentNode as HTMLElement;
-            parent.animate({
+            let an = element.animate({
                 opacity: [0, 1]
             }, {
-                duration: Note._popupFadeInDuration,
-                endDelay: Note._popupLiveTime
+                duration: Note._popupFadeDuration,
+                fill: 'forwards'
             });
 
-            parent.animate({
-                opacity: [1, 0]
-            }, Note._popupFadeOutDuration);
+            an.onfinish = function () {
+                setTimeout(function () {
+                    an.reverse()
+                }, Note._popupLiveTime);
+
+                this.onfinish = null;
+            }
         }
 
         /**
@@ -217,7 +206,7 @@ namespace Note {
         }
 
         /**
-         * Dsltkbnm
+         * Получить язык из cookie
          *
          * @returns {string}
          */
