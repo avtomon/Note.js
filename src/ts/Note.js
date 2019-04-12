@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var Note;
+export var Note;
 (function (Note_1) {
     /**
      * Всплывающие сообщения для сайта на чистом JavaScript. Поддерживаеся перевод на более чем более 90 языков
@@ -25,14 +25,12 @@ var Note;
          * Инициализация
          *
          * @param {string} popupUid
-         * @param {number} popupFadeInDuration
-         * @param {number} popupFadeOutDuration
+         * @param {number} popupFadeDuration
          * @param {number} popupLiveTime
          */
-        static init({ popupUid = 'popup' + Math.random().toString(16).slice(2), popupFadeInDuration = 500, popupFadeOutDuration = 500, popupLiveTime = 2000 }) {
+        static init({ popupUid = 'popup' + Math.random().toString(16).slice(2), popupFadeDuration = 500, popupLiveTime = 2000 }) {
             Note._popupUid = popupUid;
-            Note._popupFadeInDuration = popupFadeInDuration;
-            Note._popupFadeOutDuration = popupFadeOutDuration;
+            Note._popupFadeDuration = popupFadeDuration;
             Note._popupLiveTime = popupLiveTime;
             if (!document.getElementById(Note._popupUid)) {
                 document.body.insertAdjacentHTML('beforeend', `<div id="${Note._popupUid}" class="popup error"><span></span></div>`);
@@ -103,16 +101,18 @@ var Note;
             element.classList.remove('error', 'ok');
             element.classList.add(type);
             element.getElementsByTagName('span')[0].innerText = message;
-            let parent = element.parentNode;
-            parent.animate({
+            let an = element.animate({
                 opacity: [0, 1]
             }, {
-                duration: Note._popupFadeInDuration,
-                endDelay: Note._popupLiveTime
+                duration: Note._popupFadeDuration,
+                fill: 'forwards'
             });
-            parent.animate({
-                opacity: [1, 0]
-            }, Note._popupFadeOutDuration);
+            an.onfinish = function () {
+                setTimeout(function () {
+                    an.reverse();
+                }, Note._popupLiveTime);
+                this.onfinish = null;
+            };
         }
         /**
          * Показать позитивное сообщение
@@ -131,7 +131,7 @@ var Note;
             this.showNote('error', message);
         }
         /**
-         * Dsltkbnm
+         * Получить язык из cookie
          *
          * @returns {string}
          */
