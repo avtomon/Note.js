@@ -2,18 +2,10 @@
 
 export namespace Note {
 
-    type Callback = (data: Object | null) => void;
+    type Callback = (data : Object | null) => void;
 
     type MessageType = 'ok' | 'error';
 
-    interface INoteStatics {
-
-        popupUid?: string;
-
-        popupFadeDuration?: number;
-
-        popupLiveTime?: number;
-    }
     /**
      * Всплывающие сообщения для сайта на чистом JavaScript. Поддерживаеся перевод на более чем более 90 языков
      */
@@ -27,7 +19,8 @@ export namespace Note {
          * @type {string}
          * @protected
          */
-        protected static readonly _ytkey = 'trnsl.1.1.20180205T094650Z.51484adc0d16f852.ed454d48484c510e9f0150f41067efa0c07b5df0';
+        protected static readonly _ytkey
+            = 'trnsl.1.1.20180205T094650Z.51484adc0d16f852.ed454d48484c510e9f0150f41067efa0c07b5df0';
 
         /**
          * Уникальный идентификатор всплывающего окна
@@ -36,7 +29,7 @@ export namespace Note {
          * @static
          * @protected
          */
-        protected static _popupUid: string;
+        protected static _popupUid : string;
 
         /**
          * Продолжительнось анимации окна
@@ -45,7 +38,7 @@ export namespace Note {
          * @static
          * @protected
          */
-        protected static _popupFadeDuration: number;
+        protected static _popupFadeDuration : number;
 
         /**
          * Продолжительнось показа окна
@@ -54,7 +47,7 @@ export namespace Note {
          * @static
          * @protected
          */
-        protected static _popupLiveTime: number;
+        protected static _popupLiveTime : number;
 
         /**
          * Инициализация
@@ -64,48 +57,46 @@ export namespace Note {
          * @param {number} popupLiveTime
          */
         public static init(
-            {
-                popupUid = 'popup' + Math.random().toString(16).slice(2),
-                popupFadeDuration = 500,
-                popupLiveTime = 2000
-            }: INoteStatics
-        ) {
+            popupUid = 'popup' + Math.random().toString(16).slice(2),
+            popupFadeDuration = 500,
+            popupLiveTime = 2000
+        ) : void {
 
             Note._popupUid = popupUid;
             Note._popupFadeDuration = popupFadeDuration;
             Note._popupLiveTime = popupLiveTime;
 
             if (!document.getElementById(Note._popupUid)) {
-                document.body.insertAdjacentHTML('beforeend', `<div id="${Note._popupUid}" class="popup error"><span></span></div>`);
+                document.body.insertAdjacentHTML(
+                    'beforeend',
+                    `<div id="${Note._popupUid}" class="popup error"><span></span></div>`
+                );
 
                 document.getElementById(Note._popupUid).addEventListener('click', function () {
                     this.style.display = 'none';
                 });
             }
-        }
 
-        /**
-         * Конструктор
-         *
-         * @param {string} _message - сообщение
-         */
-        public constructor(protected _message?: string) {
-
+            window['note'] = Note;
         }
 
         /**
          * Получить язык сообщения
          *
+         * @param {string} message - сообщение
          * @param {Callback | null} callback - обработчик получения информации о языке
          *
          * @returns {Promise<string | null>}
          */
-        protected async getMessageLang(callback: Callback | null = null): Promise<string | null> {
+        public static async getMessageLang(
+            message : string,
+            callback : Callback | null = null
+        ) : Promise<string | null> {
 
             let url = new URL('https://translate.yandex.net/api/v1.5/tr.json/detect'),
                 params = {
                     key: Note._ytkey,
-                    text: this._message,
+                    text: message,
                     hint: 'en,ru'
                 };
 
@@ -122,14 +113,19 @@ export namespace Note {
         /**
          * Перевод сообщения
          *
+         * @param {string} message - сообщение
          * @param {Callback | null} callback - обработчик получения переведенного сообщения
          * @param {string} toLang - на какой язык переводить
          * @param {string} fromLang - с какого языка переводить
-         * @param {string} message - сообщение
          *
          * @returns {Promise<string | null>}
          */
-        public async translate(callback: Callback | null, toLang: string = 'en', fromLang: string = '', message: string = this._message): Promise<string | null> {
+        public static async translate(
+            message : string,
+            toLang : string = 'en',
+            callback : Callback | null,
+            fromLang : string = ''
+        ) : Promise<string | null> {
 
             if (fromLang === toLang) {
                 return message;
@@ -164,9 +160,9 @@ export namespace Note {
          * @param {MessageType} type - тип сообщения ('ok' или 'error')
          * @param {string} message - сообщение
          */
-        public showNote(type: MessageType, message: string = this._message): void {
+        public static showNote(type : MessageType, message : string) : void {
 
-            let element: HTMLElement = document.getElementById(Note._popupUid);
+            let element : HTMLElement = document.getElementById(Note._popupUid);
 
             element.classList.remove('error', 'ok');
             element.classList.add(type);
@@ -192,8 +188,8 @@ export namespace Note {
          *
          * @param {string} message - сообщение
          */
-        public showOk(message: string = this._message): void {
-            this.showNote('ok', message);
+        public static showOk(message : string) : void {
+            Note.showNote('ok', message);
         }
 
         /**
@@ -201,8 +197,8 @@ export namespace Note {
          *
          * @param {string} message - сообщение
          */
-        public showError(message: string = this._message): void {
-            this.showNote('error', message);
+        public static showError(message : string) : void {
+            Note.showNote('error', message);
         }
 
         /**
@@ -210,7 +206,7 @@ export namespace Note {
          *
          * @returns {string}
          */
-        protected static _getCookieLang(): string | null {
+        protected static _getCookieLang() : string | null {
 
             for (let item of document.cookie.split(';')) {
                 let key,
@@ -231,43 +227,45 @@ export namespace Note {
          *
          * @param {MessageType} type - тип сообщения ('ok' или 'error')
          * @param {string} message - сообщение
+         *
+         * @returns {Promise<string>}
          */
-        public showTranslateNote(type: MessageType, message: string = this._message): void {
+        public static showTranslateNote(type : MessageType, message : string) : Promise<string> {
 
-            let toLang: string = navigator.language || Note._getCookieLang(),
-                self = this;
+            let toLang : string = navigator.language || Note._getCookieLang();
 
             if (!toLang) {
-                this.showNote(type);
+                Note.showNote(type, message);
                 return;
             }
 
-            this.translate(function (data) {
+            return Note.translate(message, toLang, function (data) {
                 if (data && data['text'] !== undefined && data['text'][0]) {
-                    self.showNote(type, data['text'][0])
+                    Note.showNote(type, data['text'][0])
                 }
-            }, toLang, '', message);
+            });
         }
 
         /**
          * Показать позитивное сообщение с переводом
          *
          * @param {string} message - сообщение
+         *
+         * @returns {Promise<string>}
          */
-        public showTranslateOk(message: string = this._message): void {
-            this.showTranslateNote('ok', message);
+        public static showTranslateOk(message : string) : Promise<string> {
+            return Note.showTranslateNote('ok', message);
         }
 
         /**
          * Показать негативное сообщение
          *
          * @param {string} message - сообщение с переводом
+         *
+         * @returns {Promise<string>}
          */
-        public showTranslateError(message: string = this._message): void {
-            this.showTranslateNote('error', message);
+        public static showTranslateError(message : string) : Promise<string> {
+            return Note.showTranslateNote('error', message);
         }
     }
 }
-
-Note.Note.init({});
-window['note'] = new Note.Note();
