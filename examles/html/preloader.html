@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Preloader example</title>
+    <link rel="stylesheet" href="../../../../bower-asset/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="../../src/css/preloader.css">
+</head>
+<body>
+<div id="preloader" style="display: none">
+    <div class="preloader-wrapper small active">
+        <div class="spinner-layer spinner-green-only">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+    <div class="text">Test text</div>
+</div>
+</body>
+<script src="/vendor/bower-asset/materialize/dist/js/materialize.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        let toastInstance = M.toast({
+            html: document.getElementById('preloader').innerHTML,
+            displayLength: 1800000,
+            classes: 'my-toast'
+        });
+
+        setTimeout(function () {
+            toastInstance.dismiss();
+        }, 300000);
+    });
+</script>
+</html>

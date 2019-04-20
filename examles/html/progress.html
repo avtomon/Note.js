@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Preloader example</title>
+    <link rel="stylesheet" href="../../../../bower-asset/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="../../src/css/progress.css">
+</head>
+<body>
+<div id="progress" style="display: none">
+    <div class="text" data-progress="70%">Test text</div>
+    <div class="progress">
+        <div class="determinate" style="width: 70%"></div>
+    </div>
+</div>
+</body>
+<script src="/vendor/bower-asset/materialize/dist/js/materialize.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        let toastInstance = M.toast({
+            html: document.getElementById('progress').innerHTML,
+            displayLength: 1800000,
+            classes: 'my-toast'
+        });
+
+        setTimeout(function () {
+            toastInstance.dismiss();
+        }, 300000);
+    });
+</script>
+</html>
