@@ -1,0 +1,14 @@
+.my-toast {
+    display: block;
+    background-color: #3c3c3c;
+}
+
+.my-toast .progress {
+    min-width: 200px;
+}
+
+.my-toast .text:after {
+    content: attr(data-progress);
+    float: right;
+    margin-left: 10px;
+}

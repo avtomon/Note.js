@@ -1,0 +1,16 @@
+.my-toast {
+    background-color: #3c3c3c;
+}
+
+.my-toast .preloader-wrapper.small {
+    width: 24px;
+    height: 24px;
+}
+
+.my-toast .spinner-green-only {
+    border-color: #0ECC81;
+}
+
+.my-toast .text {
+    margin-left: 10px;
+}
