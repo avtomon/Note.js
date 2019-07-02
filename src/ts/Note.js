@@ -178,4 +178,3 @@ export var Note;
     Note._ytkey = 'trnsl.1.1.20180205T094650Z.51484adc0d16f852.ed454d48484c510e9f0150f41067efa0c07b5df0';
     Note_1.Note = Note;
 })(Note || (Note = {}));
-//# sourceMappingURL=Note.js.map
