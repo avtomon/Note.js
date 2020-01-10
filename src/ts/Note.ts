@@ -69,7 +69,7 @@ export namespace Note {
             if (!document.getElementById(Note._popupUid)) {
                 document.body.insertAdjacentHTML(
                     'beforeend',
-                    `<div id="${Note._popupUid}" class="popup error"><span></span></div>`
+                    `<div id="${Note._popupUid}" class="popup error" style="display: none"><span></span></div>`
                 );
 
                 document.getElementById(Note._popupUid).addEventListener('click', function () {
@@ -164,6 +164,7 @@ export namespace Note {
 
             let element : HTMLElement = document.getElementById(Note._popupUid);
 
+            element.style.display = 'inherit';
             element.classList.remove('error', 'ok');
             element.classList.add(type);
             element.getElementsByTagName('span')[0].innerText = message;
@@ -176,7 +177,10 @@ export namespace Note {
 
             an.onfinish = function () {
                 setTimeout(function () {
-                    an.reverse()
+                    an.reverse();
+                    an.onfinish = function () {
+                        element.style.display = 'none';
+                    };
                 }, Note._popupLiveTime);
 
                 this.onfinish = null;

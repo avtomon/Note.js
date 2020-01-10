@@ -25,7 +25,7 @@ export var Note;
             Note._popupFadeDuration = popupFadeDuration;
             Note._popupLiveTime = popupLiveTime;
             if (!document.getElementById(Note._popupUid)) {
-                document.body.insertAdjacentHTML('beforeend', `<div id="${Note._popupUid}" class="popup error"><span></span></div>`);
+                document.body.insertAdjacentHTML('beforeend', `<div id="${Note._popupUid}" class="popup error" style="display: none"><span></span></div>`);
                 document.getElementById(Note._popupUid).addEventListener('click', function () {
                     this.style.display = 'none';
                 });
@@ -92,6 +92,7 @@ export var Note;
          */
         static showNote(type, message) {
             let element = document.getElementById(Note._popupUid);
+            element.style.display = 'inherit';
             element.classList.remove('error', 'ok');
             element.classList.add(type);
             element.getElementsByTagName('span')[0].innerText = message;
@@ -104,6 +105,9 @@ export var Note;
             an.onfinish = function () {
                 setTimeout(function () {
                     an.reverse();
+                    an.onfinish = function () {
+                        element.style.display = 'none';
+                    };
                 }, Note._popupLiveTime);
                 this.onfinish = null;
             };
