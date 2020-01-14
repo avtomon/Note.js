@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 export var Note;
 (function (Note_1) {
     /**
@@ -40,18 +32,16 @@ export var Note;
          *
          * @returns {Promise<string | null>}
          */
-        static getMessageLang(message, callback = null) {
-            return __awaiter(this, void 0, void 0, function* () {
-                let url = new URL('https://translate.yandex.net/api/v1.5/tr.json/detect'), params = {
-                    key: Note._ytkey,
-                    text: message,
-                    hint: 'en,ru'
-                };
-                Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-                let response = yield fetch(url.toString()), data = yield response.json();
-                data.then(callback);
-                return data.lang || null;
-            });
+        static async getMessageLang(message, callback = null) {
+            let url = new URL('https://translate.yandex.net/api/v1.5/tr.json/detect'), params = {
+                key: Note._ytkey,
+                text: message,
+                hint: 'en,ru'
+            };
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+            let response = await fetch(url.toString()), data = await response.json();
+            data.then(callback);
+            return data.lang || null;
         }
         /**
          * Перевод сообщения
@@ -63,26 +53,24 @@ export var Note;
          *
          * @returns {Promise<string | null>}
          */
-        static translate(message, toLang = 'en', callback, fromLang = '') {
-            return __awaiter(this, void 0, void 0, function* () {
-                if (fromLang === toLang) {
-                    return message;
-                }
-                let requestLang = toLang;
-                if (fromLang) {
-                    requestLang = fromLang + '-' + toLang;
-                }
-                let url = new URL('https://translate.yandex.net/api/v1.5/tr.json/translate'), params = {
-                    key: Note._ytkey,
-                    text: message,
-                    lang: requestLang,
-                    format: 'plain'
-                };
-                Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-                let response = yield fetch(url.toString()), data = yield response.json();
-                data.then(callback);
-                return data.text[0] || null;
-            });
+        static async translate(message, toLang = 'en', callback, fromLang = '') {
+            if (fromLang === toLang) {
+                return message;
+            }
+            let requestLang = toLang;
+            if (fromLang) {
+                requestLang = fromLang + '-' + toLang;
+            }
+            let url = new URL('https://translate.yandex.net/api/v1.5/tr.json/translate'), params = {
+                key: Note._ytkey,
+                text: message,
+                lang: requestLang,
+                format: 'plain'
+            };
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+            let response = await fetch(url.toString()), data = await response.json();
+            data.then(callback);
+            return data.text[0] || null;
         }
         /**
          * Показать сообщение
@@ -194,4 +182,3 @@ export var Note;
     Note._ytkey = 'trnsl.1.1.20180205T094650Z.51484adc0d16f852.ed454d48484c510e9f0150f41067efa0c07b5df0';
     Note_1.Note = Note;
 })(Note || (Note = {}));
-//# sourceMappingURL=Note.js.map
