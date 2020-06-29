@@ -13,6 +13,7 @@ export namespace Note {
 
         public static readonly COOKIE_LANG_KEY = 'lang';
         public static readonly LOG_URL = '/log';
+        public static readonly DEFAULT_LANGUAGE = 'en';
 
         /**
          * Ключ доступа к Yandex.translate
@@ -172,10 +173,14 @@ export namespace Note {
          *
          * @param {MessageType} type - тип сообщения ('ok' или 'error')
          * @param {string} message - сообщение
+         * @param {number|null} popupLiveTime
          */
-        public static showNote(type : MessageType, message : string) : void {
+        public static showNote(type : MessageType, message : string, popupLiveTime : number | null = null) : void {
 
-            let element : HTMLElement = document.getElementById(Note._popupUid);
+            let element : HTMLElement | null = document.getElementById(Note._popupUid);
+            if (!element) {
+                return;
+            }
 
             element.style.display = 'inherit';
             element.classList.remove('error', 'ok');
@@ -188,15 +193,17 @@ export namespace Note {
                 fill: 'forwards'
             });
 
-            an.onfinish = function () {
-                setTimeout(function () {
-                    an.reverse();
-                    an.onfinish = function () {
-                        element.style.display = 'none';
-                    };
-                }, Note._popupLiveTime);
+            if (popupLiveTime !== -1) {
+                an.onfinish = function () {
+                    setTimeout(function () {
+                        an.reverse();
+                        an.onfinish = function () {
+                            element.style.display = 'none';
+                        };
+                    }, popupLiveTime || Note._popupLiveTime);
 
-                this.onfinish = null;
+                    this.onfinish = null;
+                }
             }
         }
 
@@ -266,9 +273,9 @@ export namespace Note {
          *
          * @returns {Promise<string>}
          */
-        public static showTranslateNote(type : MessageType, message : string) : Promise<string> {
+        public static showTranslateNote(type : MessageType, message : string) : Promise<string | null> | void {
 
-            let toLang : string = navigator.language || Note._getCookieLang();
+            let toLang : string = navigator.language || Note._getCookieLang() || Note.DEFAULT_LANGUAGE;
 
             if (!toLang) {
                 Note.showNote(type, message);
@@ -289,7 +296,7 @@ export namespace Note {
          *
          * @returns {Promise<string>}
          */
-        public static showTranslateOk(message : string) : Promise<string> {
+        public static showTranslateOk(message : string) : Promise<string | null> | void {
             return Note.showTranslateNote('ok', message);
         }
 
@@ -300,7 +307,7 @@ export namespace Note {
          *
          * @returns {Promise<string>}
          */
-        public static showTranslateError(message : string) : Promise<string> {
+        public static showTranslateError(message : string) : Promise<string | null> | void {
             return Note.showTranslateNote('error', message);
         }
     }

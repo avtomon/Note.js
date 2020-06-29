@@ -91,9 +91,13 @@ export var Note;
          *
          * @param {MessageType} type - тип сообщения ('ok' или 'error')
          * @param {string} message - сообщение
+         * @param {number|null} popupLiveTime
          */
-        static showNote(type, message) {
+        static showNote(type, message, popupLiveTime = null) {
             let element = document.getElementById(Note._popupUid);
+            if (!element) {
+                return;
+            }
             element.style.display = 'inherit';
             element.classList.remove('error', 'ok');
             element.classList.add(type);
@@ -110,7 +114,7 @@ export var Note;
                     an.onfinish = function () {
                         element.style.display = 'none';
                     };
-                }, Note._popupLiveTime);
+                }, popupLiveTime || Note._popupLiveTime);
                 this.onfinish = null;
             };
         }
@@ -166,7 +170,7 @@ export var Note;
          * @returns {Promise<string>}
          */
         static showTranslateNote(type, message) {
-            let toLang = navigator.language || Note._getCookieLang();
+            let toLang = navigator.language || Note._getCookieLang() || Note.DEFAULT_LANGUAGE;
             if (!toLang) {
                 Note.showNote(type, message);
                 return;
@@ -200,6 +204,7 @@ export var Note;
     }
     Note.COOKIE_LANG_KEY = 'lang';
     Note.LOG_URL = '/log';
+    Note.DEFAULT_LANGUAGE = 'en';
     /**
      * Ключ доступа к Yandex.translate
      *
