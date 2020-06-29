@@ -12,6 +12,7 @@ export namespace Note {
     export class Note {
 
         public static readonly COOKIE_LANG_KEY = 'lang';
+        public static readonly LOG_URL = '/log';
 
         /**
          * Ключ доступа к Yandex.translate
@@ -50,21 +51,33 @@ export namespace Note {
         protected static _popupLiveTime : number;
 
         /**
+         * Писать ли ошибки фронта в лог сервера
+         *
+         * @type {boolean}
+         * @static
+         * @protected
+         */
+        protected static _isDebug : boolean = false;
+
+        /**
          * Инициализация
          *
          * @param {string} popupUid
          * @param {number} popupFadeDuration
          * @param {number} popupLiveTime
+         * @param {boolean} isDebug
          */
         public static init(
             popupUid = 'popup' + Math.random().toString(16).slice(2),
             popupFadeDuration = 500,
-            popupLiveTime = 2000
+            popupLiveTime = 2000,
+            isDebug = true
         ) : void {
 
             Note._popupUid = popupUid;
             Note._popupFadeDuration = popupFadeDuration;
             Note._popupLiveTime = popupLiveTime;
+            Note._isDebug = isDebug;
 
             if (!document.getElementById(Note._popupUid)) {
                 document.body.insertAdjacentHTML(
@@ -203,6 +216,25 @@ export namespace Note {
          */
         public static showError(message : string) : void {
             Note.showNote('error', message);
+
+            if (Note._isDebug) {
+                const
+                    userIdCookie = document.cookie.match(/user_id=(\d+)/),
+                    userId = userIdCookie ? userIdCookie[1] : null;
+
+                let url = new URL(location.origin + Note.LOG_URL),
+                    params = {
+                        message: message,
+                        page: location.href
+                    };
+                if (userId) {
+                    params['user_id'] = userId;
+                }
+
+                Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+                fetch(url.toString());
+            }
         }
 
         /**
