@@ -11,11 +11,13 @@ export var Note;
          * @param {string} popupUid
          * @param {number} popupFadeDuration
          * @param {number} popupLiveTime
+         * @param {boolean} isDebug
          */
-        static init(popupUid = 'popup' + Math.random().toString(16).slice(2), popupFadeDuration = 500, popupLiveTime = 2000) {
+        static init(popupUid = 'popup' + Math.random().toString(16).slice(2), popupFadeDuration = 500, popupLiveTime = 2000, isDebug = true) {
             Note._popupUid = popupUid;
             Note._popupFadeDuration = popupFadeDuration;
             Note._popupLiveTime = popupLiveTime;
+            Note._isDebug = isDebug;
             if (!document.getElementById(Note._popupUid)) {
                 document.body.insertAdjacentHTML('beforeend', `<div id="${Note._popupUid}" class="popup error" style="display: none"><span></span></div>`);
                 document.getElementById(Note._popupUid).addEventListener('click', function () {
@@ -77,9 +79,13 @@ export var Note;
          *
          * @param {MessageType} type - тип сообщения ('ok' или 'error')
          * @param {string} message - сообщение
+         * @param {number|null} popupLiveTime
          */
-        static showNote(type, message) {
+        static showNote(type, message, popupLiveTime = null) {
             let element = document.getElementById(Note._popupUid);
+            if (!element) {
+                return;
+            }
             element.style.display = 'inherit';
             element.classList.remove('error', 'ok');
             element.classList.add(type);
@@ -90,15 +96,17 @@ export var Note;
                 duration: Note._popupFadeDuration,
                 fill: 'forwards'
             });
-            an.onfinish = function () {
-                setTimeout(function () {
-                    an.reverse();
-                    an.onfinish = function () {
-                        element.style.display = 'none';
-                    };
-                }, Note._popupLiveTime);
-                this.onfinish = null;
-            };
+            if (popupLiveTime !== -1) {
+                an.onfinish = function () {
+                    setTimeout(function () {
+                        an.reverse();
+                        an.onfinish = function () {
+                            element.style.display = 'none';
+                        };
+                    }, popupLiveTime || Note._popupLiveTime);
+                    this.onfinish = null;
+                };
+            }
         }
         /**
          * Показать позитивное сообщение
@@ -115,6 +123,18 @@ export var Note;
          */
         static showError(message) {
             Note.showNote('error', message);
+            if (Note._isDebug) {
+                const userIdCookie = document.cookie.match(/user_id=(\d+)/), userId = userIdCookie ? userIdCookie[1] : null;
+                let url = new URL(location.origin + Note.LOG_URL), params = {
+                    message: message,
+                    page: location.href
+                };
+                if (userId) {
+                    params['user_id'] = userId;
+                }
+                Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+                fetch(url.toString());
+            }
         }
         /**
          * Получить язык из cookie
@@ -140,7 +160,7 @@ export var Note;
          * @returns {Promise<string>}
          */
         static showTranslateNote(type, message) {
-            let toLang = navigator.language || Note._getCookieLang();
+            let toLang = navigator.language || Note._getCookieLang() || Note.DEFAULT_LANGUAGE;
             if (!toLang) {
                 Note.showNote(type, message);
                 return;
@@ -173,6 +193,8 @@ export var Note;
         }
     }
     Note.COOKIE_LANG_KEY = 'lang';
+    Note.LOG_URL = '/log';
+    Note.DEFAULT_LANGUAGE = 'en';
     /**
      * Ключ доступа к Yandex.translate
      *
@@ -180,5 +202,13 @@ export var Note;
      * @protected
      */
     Note._ytkey = 'trnsl.1.1.20180205T094650Z.51484adc0d16f852.ed454d48484c510e9f0150f41067efa0c07b5df0';
+    /**
+     * Писать ли ошибки фронта в лог сервера
+     *
+     * @type {boolean}
+     * @static
+     * @protected
+     */
+    Note._isDebug = false;
     Note_1.Note = Note;
 })(Note || (Note = {}));
